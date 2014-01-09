@@ -29,63 +29,45 @@
         <hr>
 
         <section id="main_content">
-          <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        
+<h3>Temperature and humidity sensor</h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+google.load("visualization", '1', {packages:['corechart']});
+google.setOnLoadCallback(drawChart);
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+// Get data from my Google Spreadsheet
+function drawChart() {
+  var query = new google.visualization.Query(
+      'https://docs.google.com/spreadsheet/ccc?key=0AmfKGsdhtlSldE8wRkpyaFYweFV1RTdxZk9vNkQzdHc&usp=sharing&range=A:C&headers=1');
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+  query.send(handleQueryResponse);
+}
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Google Charts test</h3>
-<!--Load the AJAX API-->
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-    
-      // Load the Visualization API and the piechart package.
-      google.load('visualization', '1.0', {'packages':['corechart']});
-      
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.setOnLoadCallback(drawChart);
+function handleQueryResponse(response) {
+  if (response.isError()) {
+    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+    return;
+  }
 
+  var data = response.getDataTable();
+  var options = {legend: {position: 'bottom'},
+                'width':600,
+                'height':300,
+                }
+  
+  var chart = new google.visualization.LineChart(document.getElementById('linechart'));
+  chart.draw(data, options);
 
-      // Callback that creates and populates a data table, 
-      // instantiates the pie chart, passes in the data and
-      // draws it.
-      function drawChart() {
+}
+</script>
 
-      // Create the data table.
-      var data = new google.visualization.DataTable();
-      data.addColumn('string', 'Topping');
-      data.addColumn('number', 'Slices');
-      data.addRows([
-        ['Mushrooms', 3],
-        ['Onions', 1],
-        ['Olives', 1], 
-        ['Zucchini', 1],
-        ['Pepperoni', 2]
-      ]);
+<title>Data from a Spreadsheet</title>
 
-      // Set chart options
-      var options = {'title':'How Much Pizza I Ate Last Night',
-                     'width':400,
-                     'height':300};
-
-      // Instantiate and draw our chart, passing in some options.
-      var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-      chart.draw(data, options);
-    }
-    </script>
-  </head>
-
-  <body>
-<!--Div that will hold the pie chart-->
-    <div id="chart_div" style="width:400; height:300"></div>
+<body>
+<span id='linechart'></span>
+</body>
 
  </section>
 
