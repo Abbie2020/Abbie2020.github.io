@@ -1,0 +1,88 @@
+<html>
+  <head>
+	<title>Quote Generator</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="robots" content="noindex">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+	<style>
+	body,h1 {font-family: "Bitter", sans-serif;}
+	p, input {
+		font-family: "Yantramanav", sans-serif;
+		}
+	img { 
+    	width:50%; 
+		}
+	header {
+		height: 10%;
+	}
+	footer {
+		height: 10%;
+	}
+	#header-title {
+		width: 50%;
+		}
+	#header-links {
+		width: 50%;
+		text-align: right;
+		}
+	</style>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+
+      // https://google,developers.appspot.com/chart/interactive/docs/spreadsheets#gid
+      google.load('visualization', '1', {packages: ['corechart', 'line']});
+      google.setOnLoadCallback(drawChart);
+
+	  // https://developers.google.com/chart/interactive/docs/reference?hl=en#methods
+		
+      function drawChart() {
+        var spreadsheetUrl = "https://docs.google.com/spreadsheets/d/1oSBsGZIsBaSBo5rGJyDpqV4pl9T29XedtlzLb5Yj2so/edit?usp=sharing&range=B:E";
+        var query = new google.visualization.Query(spreadsheetUrl);
+		query.send(getAQuote);
+		var listOfColours = ["w3-pink","w3-teal","w3-deep-orange"];
+		var randomNum = Math.floor(Math.random() * listOfColours.length);
+		document.getElementsByClassName("w3-display-container").className += " " + listOfColours[randomNum];
+      }
+		
+	  function getAQuote(response) {
+		  var dataTable = response.getDataTable();
+		  var randomRow = random_number(1,dataTable.getNumberOfRows());
+		  var quote = dataTable.getValue(randomRow,2);
+		  var whoSaidIt = dataTable.getValue(randomRow,0);
+		  var aboutWhat = dataTable.getValue(randomRow,1);
+		  var soOnSth = '<p class="w3-large">' + dataTable.getValue(randomRow,0) + '<br>on</br>' + dataTable.getValue(randomRow,1) + '</p>';
+		  document.getElementById("quote").innerHTML = quote;
+		  document.getElementById("who-on-what").innerHTML = soOnSth;
+	  }
+		 
+	  function random_number(min,max) {
+		return (Math.round((max-min) * Math.random() + min));
+	  }
+		
+    </script>
+  </head>
+
+  <body>
+	  <header class="w3-container w3-padding-large w3-indigo">
+	  	<div id="header-title" class="w3-left w3-xlarge">Quote Generator</div>
+		<div id="header-links" class="w3-right"><input class="w3-button w3-round w3-border w3-hover-white w3-border-white" id="submit-quote" type="button" value="Submit a quote" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSe4CilAf6gd5p1quV4Ge2atJfpAg6Q5pC_wYCW1Lx_O3wRBSA/viewform')" /></div>
+	  </header>
+	  <div class="w3-display-container w3-text-black w3-center w3-pink" style="height:80%;">
+		  <div class="w3-container w3-display-middle w3-padding-large" >
+			<h1 id="quote"></h1>
+			<p id="who-on-what"></p>
+			<div onclick="drawChart()" class="w3-padding w3-border w3-round-xxlarge w3-button w3-hover-white w3-border-white" >
+				<i class="fas fa-sync-alt fa-2x " ></i>
+			</div>
+		  </div>
+		  
+	  </div>
+	  <footer class="w3-container w3-padding-large w3-indigo">
+	  <div >
+		Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a> / Created by Abbie
+	  </div>
+	  </footer>
+  </body>
+</html>
