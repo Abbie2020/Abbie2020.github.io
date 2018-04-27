@@ -41,20 +41,28 @@
         var spreadsheetUrl = "https://docs.google.com/spreadsheets/d/1oSBsGZIsBaSBo5rGJyDpqV4pl9T29XedtlzLb5Yj2so/edit?usp=sharing&range=B:E";
         var query = new google.visualization.Query(spreadsheetUrl);
 		query.send(getAQuote);
-		var listOfColours = ["w3-pink","w3-teal","w3-deep-orange"];
-		var randomNum = Math.floor(Math.random() * listOfColours.length);
-		document.getElementsByClassName("w3-display-container").className += " " + listOfColours[randomNum];
       }
 		
 	  function getAQuote(response) {
 		  var dataTable = response.getDataTable();
-		  var randomRow = random_number(1,dataTable.getNumberOfRows());
-		  var quote = dataTable.getValue(randomRow,2);
-		  var whoSaidIt = dataTable.getValue(randomRow,0);
-		  var aboutWhat = dataTable.getValue(randomRow,1);
+		  
+		  do {
+			  var randomRow = random_number(1,dataTable.getNumberOfRows());
+			  var publish = dataTable.getValue(randomRow,3);
+			  if (publish =='yes') {
+				  var quote = dataTable.getValue(randomRow,2);
+				  var whoSaidIt = dataTable.getValue(randomRow,0);
+				  var aboutWhat = dataTable.getValue(randomRow,1);
+				  break;
+			  } else {
+				  console.log("Row " + randomRow + " is not for publishing.") 
+			  }
+		  } while(1)
+		  
 		  var soOnSth = '<p class="w3-large">' + dataTable.getValue(randomRow,0) + '<br>on</br>' + dataTable.getValue(randomRow,1) + '</p>';
 		  document.getElementById("quote").innerHTML = quote;
 		  document.getElementById("who-on-what").innerHTML = soOnSth;
+	  
 	  }
 		 
 	  function random_number(min,max) {
@@ -74,7 +82,7 @@
 			<h1 id="quote"></h1>
 			<p id="who-on-what"></p>
 			<div onclick="drawChart()" class="w3-padding w3-border w3-round-xxlarge w3-button w3-hover-white w3-border-white" >
-				<i class="fas fa-sync-alt fa-2x " ></i>
+				<i class="fas fa-sync-alt fa-2x " style="color:darkslategray"></i>
 			</div>
 		  </div>
 		  
