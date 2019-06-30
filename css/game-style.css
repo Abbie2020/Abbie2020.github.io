@@ -1,0 +1,91 @@
+html, body {
+    font-family: 'Gloria Hallelujah', cursive;
+}
+
+header {
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+section {
+    display: flex;
+    margin: 10px;
+}
+
+h1 {
+
+}
+
+.replay:hover {
+    cursor: pointer;
+    
+}
+
+.game-info{
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+    align-items: center;
+}
+
+.game {
+    padding: 30px 20px 30px 20px;
+    border-radius: 10px;
+    background-color: #c8e5eb;
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(4, minmax(100px, 1fr));
+    
+}
+
+.lives {
+    color: #e96d59;
+}
+
+.card {
+    padding: 0;
+    margin: 10px;
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0rem .5rem 1rem rgba(0,0,0,.3);
+    min-height: 100px;
+    background-color: #a5dee0;
+    cursor: pointer;
+    transition: 0.6s;
+	transform-style: preserve-3d;
+}
+
+.front > img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.back {
+    padding: 0;
+    position: relative;
+    border-radius: 10px;
+    min-height: 100px;
+    background-color: #a5dee0
+}
+
+/* entire container, keeps perspective */
+.card-container {
+	perspective: 1000px;
+}
+/* flip the pane when hovered */
+.card-container.flip .card {
+    transform: rotateY(180deg);
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	backface-visibility: hidden;
+}
+
+/* front pane, placed above back */
+.front {
+	z-index: 2;
+}
