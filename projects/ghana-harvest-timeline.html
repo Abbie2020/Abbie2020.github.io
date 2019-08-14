@@ -1,0 +1,900 @@
+<html>
+<head>
+	<title>Harvest dates in Ghana - BASELINE</title>
+	<style></style>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" rel="stylesheet" type="text/css" />
+	<style type="text/css">
+    body, input, table {
+      font: 10pt verdana;
+    }
+	td {
+		padding: 5px;
+	}
+	h1 {
+		color: #4a4949;
+	}
+	h4 {
+		margin: 0px;
+	}
+		.vis-item {
+			background-color: #ebebeb;
+		}
+		.vis-item.prise {
+		  border-color: #0aa9c6;
+		  color: white;
+		}
+		.vis-item.vis-dot.prise {
+		  border-radius: 5px;
+		  border-width: 5px;
+		}
+		.vis-item.vis-line.prise {
+		  border-width: 2px;
+		}
+		.vis-item.vis-box.prise {
+		  border-radius: 30px;
+		  border-width: 2px;
+		  font-weight: bold;
+		}
+		.vis-item.harvest {
+		  border-color: saddlebrown;
+		}
+		.vis-item.maturity {
+			border-color: sandybrown;
+		}
+		.vis-item.tassel {
+			border-color: rosybrown;
+		}
+		.vis-item.vis-selected {
+		  background-color: white;
+		  border-color: #fcac15;
+		  color: #fcac15;
+		}
+		.vis-labelset {
+			width: 150px;
+		}
+		.vis-label.vis-nesting-group {
+			font-weight: bold;
+		}
+		.dot {
+		  height: 8px;
+		  width: 8px;
+		  border-radius: 50%;
+		  display: inline-block;
+		}
+	</style>
+</head>
+<body>
+	<div id="title">
+		<h1>Harvest dates in Ghana - BASELINE</h1>
+	</div>
+	<div id="legend" style="border:1px solid #bfbfbf;padding: 5px">
+	<h4>Key</h4>
+	<table>
+		<tr>
+			<td><span class="dot" style="background-color: rosybrown;"></span>  Tassel</td>
+			<td><span class="dot" style="background-color: sandybrown;"></span>  Maturity</td>
+			<td><span class="dot" style="background-color: saddlebrown;"></span>  Harvest</td>
+			<td><span style="height: 25px;
+		  width: 25px;
+		  border-radius: 50%;
+		  display: inline-block;border:2px solid #0aa9c6;background-color: #ebebeb;text-align: center;line-height: 25px">🌽</span>  PRISE predicted harvest date</td>
+		</tr>
+	</table>
+</div>
+<p></p>
+<div id="ejura-timeline"></div>
+<p></p>
+<div id="fumesua-timeline"></div>
+<p></p>
+<div id="wa-timeline"></div>
+<script type="text/javascript">
+	// create a data set with groups
+	var groupsEjura = new vis.DataSet();
+	var groupsFumesua = new vis.DataSet();
+	var groupsWa = new vis.DataSet();
+	
+	groupsEjura.add([
+		{
+		  id: 400,
+		  content: "Ejura",
+		  nestedGroups:[300,302,303,304,305,306,307,308,309,301],
+		  className: "ejura",
+		}
+	])
+	
+	groupsFumesua.add([
+		{
+		  id: 401,
+		  content: "Fumesua",
+		  nestedGroups: [310,311,312,313,314,315,316,317,318,319]
+		}
+	])
+	
+	groupsWa.add([
+		{
+		  id: 402,
+		  content: "Wa",
+		  nestedGroups: [320,321,322,323,324,325,326,327,328,329]
+		}
+	  ]);
+
+  groupsEjura.add([
+  {
+    "content": "ejura-MAI-1",
+    "id": 300
+  },
+  {
+    "content": "ejura-MAI-2",
+    "id": 302
+  },
+  {
+    "content": "ejura-MAI-3",
+    "id": 303
+  },
+  {
+    "content": "ejura-MAI-4",
+    "id": 304
+  },
+  {
+    "content": "ejura-MAI-5",
+    "id": 305
+  },
+  {
+    "content": "ejura-MAI-6",
+    "id": 306
+  },
+  {
+    "content": "ejura-MAI-7",
+    "id": 307
+  },
+  {
+    "content": "ejura-MAI-8",
+    "id": 308
+  },
+  {
+    "content": "ejura-MAI-9",
+    "id": 309
+  },
+  {
+    "content": "ejura-MAI-10",
+    "id": 301
+  }
+]);
+	
+groupsFumesua.add([  
+  {
+    "content": "fumesua-MAI-1",
+    "id": 310
+  },
+
+  {
+    "content": "fumesua-MAI-2",
+    "id": 312
+  },
+  {
+    "content": "fumesua-MAI-3",
+    "id": 313
+  },
+  {
+    "content": "fumesua-MAI-4",
+    "id": 314
+  },
+  {
+    "content": "fumesua-MAI-5",
+    "id": 315
+  },
+  {
+    "content": "fumesua-MAI-6",
+    "id": 316
+  },
+  {
+    "content": "fumesua-MAI-7",
+    "id": 317
+  },
+  {
+    "content": "fumesua-MAI-8",
+    "id": 318
+  },
+  {
+    "content": "fumesua-MAI-9",
+    "id": 319
+  },
+  {
+    "content": "fumesua-MAI-10",
+    "id": 311
+  }
+])
+	
+groupsWa.add([
+  {
+    "content": "wa-MAI-1",
+    "id": 320
+  },
+
+  {
+    "content": "wa-MAI-2",
+    "id": 322
+  },
+  {
+    "content": "wa-MAI-3",
+    "id": 323
+  },
+  {
+    "content": "wa-MAI-4",
+    "id": 324
+  },
+  {
+    "content": "wa-MAI-5",
+    "id": 325
+  },
+  {
+    "content": "wa-MAI-6",
+    "id": 326
+  },
+  {
+    "content": "wa-MAI-7",
+    "id": 327
+  },
+  {
+    "content": "wa-MAI-8",
+    "id": 328
+  },
+  {
+    "content": "wa-MAI-9",
+    "id": 329
+  },
+  {
+    "content": "wa-MAI-10",
+    "id": 321
+  },
+]);
+
+
+  // Create a DataSet (allows two way data-binding)
+	var items = new vis.DataSet();
+	
+	items.add(
+ [
+  {
+    "id": 1,
+    "start": "2018-06-20",
+    "group": 400,
+    "className": "prise",
+    "type": "box",
+	"content": "🌽",
+  },
+  {
+    "id": 11,
+    "start": "2018-06-20",
+    "group": 401,
+    "className": "prise",
+    "type": "box",
+	"content": "🌽",
+  },
+  {
+    "id": 21,
+    "start": "2018-07-23",
+    "group": 402,
+    "className": "prise",
+    "type": "box",
+	"content": "🌽",
+  },
+  {
+    "id": 31,
+    "start": "2018-06-12",
+    "group": 300,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 32,
+    "start": "2018-06-20",
+    "group": 301,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 33,
+    "start": "2018-05-23",
+    "group": 302,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 34,
+    "start": "2018-05-23",
+    "group": 303,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 35,
+    "start": "2018-05-24",
+    "group": 304,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 36,
+    "start": "2018-06-07",
+    "group": 305,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 37,
+    "start": "2018-06-08",
+    "group": 306,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 38,
+    "start": "2018-06-08",
+    "group": 307,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 39,
+    "start": "2018-06-10",
+    "group": 308,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 40,
+    "start": "2018-06-12",
+    "group": 309,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 41,
+    "start": "2018-06-20",
+    "group": 310,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 42,
+    "start": "2018-06-19",
+    "group": 311,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 43,
+    "start": "2018-06-20",
+    "group": 312,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 44,
+    "start": "2018-06-19",
+    "group": 313,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 45,
+    "start": "2018-06-26",
+    "group": 314,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 46,
+    "start": "2018-06-19",
+    "group": 315,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 47,
+    "start": "2018-06-26",
+    "group": 316,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 48,
+    "start": "2018-06-14",
+    "group": 317,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 49,
+    "start": "2018-06-14",
+    "group": 318,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 50,
+    "start": "2018-06-26",
+    "group": 319,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 51,
+    "start": "2018-09-26",
+    "group": 320,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 52,
+    "start": "2018-09-20",
+    "group": 321,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 53,
+    "start": "2018-08-09",
+    "group": 322,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 54,
+    "start": "2018-08-09",
+    "group": 323,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 55,
+    "start": "2018-08-02",
+    "group": 324,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 56,
+    "start": "2018-09-20",
+    "group": 325,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 57,
+    "start": "2018-09-20",
+    "group": 326,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 58,
+    "start": "2018-09-26",
+    "group": 327,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 59,
+    "start": "2018-09-26",
+    "group": 328,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 60,
+    "start": "2018-08-09",
+    "group": 329,
+    "className": "tassel",
+    "type": "point"
+  },
+  {
+    "id": 61,
+    "start": "2018-07-12",
+    "group": 300,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 62,
+    "start": "2018-07-22",
+    "group": 301,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 63,
+    "start": "2018-07-04",
+    "group": 302,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 64,
+    "start": "2018-07-12",
+    "group": 303,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 65,
+    "start": "2018-07-05",
+    "group": 304,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 66,
+    "start": "2018-07-12",
+    "group": 305,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 67,
+    "start": "2018-07-06",
+    "group": 306,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 68,
+    "start": "2018-07-06",
+    "group": 307,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 69,
+    "start": "2018-07-22",
+    "group": 308,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 70,
+    "start": "2018-07-10",
+    "group": 309,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 71,
+    "start": "2018-07-19",
+    "group": 310,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 72,
+    "start": "2018-07-25",
+    "group": 311,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 73,
+    "start": "2018-07-19",
+    "group": 312,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 74,
+    "start": "2018-08-11",
+    "group": 313,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 75,
+    "start": "2018-07-25",
+    "group": 314,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 76,
+    "start": "2018-07-20",
+    "group": 315,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 77,
+    "start": "2018-07-25",
+    "group": 316,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 78,
+    "start": "2018-07-26",
+    "group": 317,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 79,
+    "start": "2018-07-26",
+    "group": 318,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 80,
+    "start": "2018-07-25",
+    "group": 319,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 81,
+    "start": "2018-10-11",
+    "group": 320,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 82,
+    "start": "2018-09-26",
+    "group": 321,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 83,
+    "start": "2018-09-26",
+    "group": 322,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 84,
+    "start": "2018-09-20",
+    "group": 323,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 85,
+    "start": "2018-09-20",
+    "group": 324,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 86,
+    "start": "2018-10-12",
+    "group": 325,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 87,
+    "start": "2018-09-26",
+    "group": 326,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 88,
+    "start": "2018-10-05",
+    "group": 327,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 89,
+    "start": "2018-10-11",
+    "group": 328,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 90,
+    "start": "2018-09-20",
+    "group": 329,
+    "className": "maturity",
+    "type": "point"
+  },
+  {
+    "id": 91,
+    "start": "2018-08-08",
+    "group": 300,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 92,
+    "start": "2018-08-15",
+    "group": 301,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 93,
+    "start": "2018-07-27",
+    "group": 302,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 94,
+    "start": "2018-08-07",
+    "group": 303,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 95,
+    "start": "2018-07-12",
+    "group": 304,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 96,
+    "start": "2018-07-22",
+    "group": 305,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 97,
+    "start": "2018-08-09",
+    "group": 306,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 98,
+    "start": "2018-08-10",
+    "group": 307,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 99,
+    "start": "2018-08-15",
+    "group": 308,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 100,
+    "start": "2018-08-03",
+    "group": 309,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 102,
+    "start": "2018-08-09",
+    "group": 311,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 103,
+    "start": "2018-08-11",
+    "group": 312,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 104,
+    "start": "2018-08-14",
+    "group": 313,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 106,
+    "start": "2018-08-09",
+    "group": 315,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 107,
+    "start": "2018-08-15",
+    "group": 316,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 108,
+    "start": "2018-08-10",
+    "group": 317,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 109,
+    "start": "2018-08-10",
+    "group": 318,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 110,
+    "start": "2018-08-15",
+    "group": 319,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 111,
+    "start": "2018-10-24",
+    "group": 320,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 112,
+    "start": "2018-10-25",
+    "group": 321,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 114,
+    "start": "2018-10-25",
+    "group": 323,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 115,
+    "start": "2018-10-12",
+    "group": 324,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 116,
+    "start": "2018-10-25",
+    "group": 325,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 117,
+    "start": "2018-10-11",
+    "group": 326,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 118,
+    "start": "2018-10-25",
+    "group": 327,
+    "className": "harvest",
+    "type": "point"
+  },
+  {
+    "id": 120,
+    "start": "2018-10-11",
+    "group": 329,
+    "className": "harvest",
+    "type": "point"
+  }
+]
+			 );
+
+  // Configuration for the Timeline
+ 	var options = {};
+	// DOM element where the Timeline will be attached
+	var containerEjura = document.getElementById('ejura-timeline');
+	var containerFumesua = document.getElementById('fumesua-timeline');
+	var containerWa = document.getElementById('wa-timeline');
+  // Create a Timeline
+ 	var timelineEjura = new vis.Timeline(containerEjura, items, options, groupsEjura);
+	var timelineFumesua = new vis.Timeline(containerFumesua, items, options, groupsFumesua);
+	var timelineWa = new vis.Timeline(containerWa, items, options, groupsWa);
+</script>
+</body>
+</html>
